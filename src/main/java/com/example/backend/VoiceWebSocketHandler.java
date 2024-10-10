@@ -33,7 +33,7 @@ public class VoiceWebSocketHandler extends TextWebSocketHandler {
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
         if (message.getPayload().contains("\"type\":\"ping\"")) {
-            System.out.println("Ping received, ignoring...");
+            //System.out.println("Ping received, ignoring...");
             return;
         }
         String room = getRoom(session);
