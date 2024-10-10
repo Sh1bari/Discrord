@@ -1,7 +1,9 @@
 version: '3.8'
 
 services:
-  back:
+  backservice:
+    container_name: backservice
+    hostname: backservice
     restart: always
     build:
       context: .
