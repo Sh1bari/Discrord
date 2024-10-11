@@ -6,5 +6,28 @@ services:
     restart: always
     build:
       context: .
+    environment:
+      - POSTGRES_ADDRESS=discordpostgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_USERNAME=postgres
+      - POSTGRES_PASSWORD=postgres
+    depends_on:
+      - postgresauth
     ports:
       - "8080:8080"
+
+  discordpostgres:
+    image: mirror.gcr.io/postgres:16.4-alpine
+    container_name: discordpostgres
+    restart: always
+    environment:
+      - POSTGRES_DB=discord
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - "5433:5432"
+    volumes:
+      - pg-data-device-production:/var/lib/postgresql/data
+
+volumes:
+  pg-data-device-production:
