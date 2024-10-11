@@ -1,25 +1,24 @@
 package com.example.backend.controllers;
 
 import com.example.backend.models.entities.Community;
+import com.example.backend.models.enums.Status;
 import com.example.backend.models.models.dtos.CommunityDto;
 import com.example.backend.models.models.requests.CreateCommunityDtoReq;
 import com.example.backend.models.models.requests.UpdateCommunityDtoReq;
 import com.example.backend.services.CommunityService;
+import com.example.backend.specifications.CommunitySpecifications;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.*;
-import org.hibernate.sql.Update;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -52,8 +51,9 @@ public class CommunityController {
     })
     @GetMapping("/communities")
     public ResponseEntity<Page<CommunityDto>> findAll(
+            @RequestParam(required = false, defaultValue = "ACTIVE") Status status,
             @PageableDefault Pageable pageable) {
-        Specification<Community> spec = Specification.where(null);
+        Specification<Community> spec = Specification.where(CommunitySpecifications.hasStatus(status));
         Page<CommunityDto> res = communityService.findAll(spec, pageable)
                 .map(CommunityDto::mapFromEntity);
         return ResponseEntity
