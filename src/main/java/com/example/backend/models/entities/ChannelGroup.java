@@ -1,5 +1,6 @@
 package com.example.backend.models.entities;
 
+import com.example.backend.models.enums.ChannelGroupType;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -23,6 +24,9 @@ public class ChannelGroup extends BaseEntity{
     @ManyToOne
     @JoinColumn(name = "community_id")
     private Community community;
+
+    @Enumerated(EnumType.STRING)
+    private ChannelGroupType channelGroupType = ChannelGroupType.CUSTOM;
 
     @OneToMany(mappedBy = "channelGroup", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH}, orphanRemoval = true)
     private List<Channel> channels = new ArrayList<>();

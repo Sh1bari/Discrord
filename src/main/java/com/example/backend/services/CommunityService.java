@@ -4,6 +4,7 @@ import com.example.backend.exceptions.GeneralException;
 import com.example.backend.models.entities.Channel;
 import com.example.backend.models.entities.ChannelGroup;
 import com.example.backend.models.entities.Community;
+import com.example.backend.models.enums.ChannelGroupType;
 import com.example.backend.models.models.requests.CreateCommunityDtoReq;
 import com.example.backend.models.models.requests.UpdateChannelGroupDtoReq;
 import com.example.backend.models.models.requests.UpdateCommunityDtoReq;
@@ -51,6 +52,9 @@ public class CommunityService {
     @Transactional
     public Community create(CreateCommunityDtoReq req) {
         Community com = req.mapToEntity();
+        ChannelGroup cg = new ChannelGroup();
+        cg.setChannelGroupType(ChannelGroupType.SYSTEM);
+        com.getChannelGroups().add(cg);
         return save(com);
     }
 
