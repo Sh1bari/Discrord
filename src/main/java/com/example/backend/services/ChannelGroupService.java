@@ -21,7 +21,7 @@ public class ChannelGroupService {
     @Transactional(readOnly = true)
     public ChannelGroup findById(Long id) {
         return channelGroupRepo.findById(id)
-                .orElseThrow(()->new GeneralException(404, "Community not found"));
+                .orElseThrow(()->new GeneralException(404, "Channel group not found"));
     }
     @Transactional
     public ChannelGroup save(ChannelGroup channelGroup) {
