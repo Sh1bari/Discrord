@@ -1,12 +1,12 @@
 package com.example.backend.controllers;
 
 import com.example.backend.models.entities.ChannelGroup;
+import com.example.backend.models.enums.Status;
 import com.example.backend.models.models.dtos.ChannelGroupDto;
-import com.example.backend.models.models.dtos.CommunityDto;
 import com.example.backend.models.models.requests.CreateChannelGroupDtoReq;
 import com.example.backend.models.models.requests.UpdateChannelGroupDtoReq;
-import com.example.backend.models.models.requests.UpdateCommunityDtoReq;
 import com.example.backend.services.ChannelGroupService;
+import com.example.backend.specifications.ChannelGroupSpecifications;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -52,8 +52,11 @@ public class ChannelGroupController {
     })
     @GetMapping("/channel-groups")
     public ResponseEntity<Page<ChannelGroupDto>> findAll(
+            @RequestParam(required = false, defaultValue = "ACTIVE") Status status,
+            @RequestParam(required = false) Long communityId,
             @PageableDefault Pageable pageable) {
-        Specification<ChannelGroup> spec = Specification.where(null);
+        Specification<ChannelGroup> spec = Specification.where(ChannelGroupSpecifications.hasStatus(status))
+                .and(ChannelGroupSpecifications.hasCommunityId(communityId));
         Page<ChannelGroupDto> res = channelGroupService.findAll(spec, pageable)
                 .map(ChannelGroupDto::mapFromEntity);
         return ResponseEntity
