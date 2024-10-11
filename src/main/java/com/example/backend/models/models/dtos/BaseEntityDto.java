@@ -4,7 +4,6 @@ import com.example.backend.models.entities.BaseEntity;
 import com.example.backend.utils.Formatter;
 import lombok.*;
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public abstract class BaseEntityDto {
