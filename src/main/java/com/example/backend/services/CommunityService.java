@@ -32,7 +32,7 @@ public class CommunityService {
     }
 
     @Transactional
-    public Community createCommunity(CreateCommunityDtoReq req) {
+    public Community create(CreateCommunityDtoReq req) {
         Community com = req.mapToEntity();
         return communityRepo.save(com);
     }

@@ -8,7 +8,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class CommunityDto {
+public class CommunityDto extends BaseEntityDto{
     private Long id;
     private String name;
 
@@ -19,10 +19,14 @@ public class CommunityDto {
     }
 
     public static CommunityDto mapFromEntity(Community c){
-        return basicMapping(c).build();
+        CommunityDto d = basicMapping(c).build();
+        d.map(c);
+        return d;
     }
 
     public static CommunityDto mapFromEntitySimplified(Community c){
-        return basicMapping(c).build();
+        CommunityDto d = basicMapping(c).build();
+        d.map(c);
+        return d;
     }
 }

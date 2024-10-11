@@ -1,23 +1,21 @@
 package com.example.backend.controllers;
 
-import com.example.backend.models.entities.Community;
-import com.example.backend.models.models.dtos.CommunityDto;
-import com.example.backend.models.models.requests.CreateCommunityDtoReq;
-import com.example.backend.services.CommunityService;
+import com.example.backend.models.entities.ChannelGroup;
+import com.example.backend.models.models.dtos.ChannelGroupDto;
+import com.example.backend.models.models.requests.CreateChannelGroupDtoReq;
+import com.example.backend.services.ChannelGroupService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.*;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,49 +25,49 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin
 @SecurityRequirement(name = "bearerAuth")
 @RequestMapping("")
-@Tag(name = "Community API", description = "")
-public class CommunityController {
-    private final CommunityService communityService;
-    @Operation(summary = "Создать сообщество")
+@Tag(name = "Channel group API", description = "")
+public class ChannelGroupController {
+    private final ChannelGroupService channelGroupService;
+
+    @Operation(summary = "Создать группу каналов")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Success")
     })
-    @PostMapping("/communities")
-    public ResponseEntity<CommunityDto> create(
-            @RequestBody CreateCommunityDtoReq req) {
-        CommunityDto res = CommunityDto.mapFromEntity(
-                communityService.create(req));
+    @PostMapping("/channel-groups")
+    public ResponseEntity<ChannelGroupDto> create(
+            @RequestBody CreateChannelGroupDtoReq req) {
+        ChannelGroupDto res = ChannelGroupDto.mapFromEntity(
+                channelGroupService.create(req));
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(res);
     }
 
-    @Operation(summary = "Получить сообщества")
+    @Operation(summary = "Получить группы каналов")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Success")
     })
-    @GetMapping("/communities")
-    public ResponseEntity<Page<CommunityDto>> findAll(
+    @GetMapping("/channel-groups")
+    public ResponseEntity<Page<ChannelGroupDto>> findAll(
             @PageableDefault Pageable pageable) {
-        Specification<Community> spec = Specification.where(null);
-        Page<CommunityDto> res = communityService.findAll(spec, pageable)
-                .map(CommunityDto::mapFromEntity);
+        Specification<ChannelGroup> spec = Specification.where(null);
+        Page<ChannelGroupDto> res = channelGroupService.findAll(spec, pageable)
+                .map(ChannelGroupDto::mapFromEntity);
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(res);
     }
 
-    @Operation(summary = "Найти сообщество по id")
+    @Operation(summary = "Найти группу каналов по id")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Success")
     })
-    @PostMapping("/communities/{id}")
-    public ResponseEntity<CommunityDto> findById(@PathVariable Long id) {
-        CommunityDto res = CommunityDto.mapFromEntity(
-                communityService.findById(id));
+    @PostMapping("/channel-groups/{id}")
+    public ResponseEntity<ChannelGroupDto> findById(@PathVariable Long id) {
+        ChannelGroupDto res = ChannelGroupDto.mapFromEntity(
+                channelGroupService.findById(id));
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(res);
     }
-
 }
