@@ -2,6 +2,10 @@ package com.example.backend.models.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Getter
 @Setter
@@ -16,5 +20,8 @@ public class Community extends BaseEntity{
     private Long id;
 
     private String name;
+
+    @OneToMany(mappedBy = "community", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH}, orphanRemoval = true)
+    private List<ChannelGroup> channelGroups = new ArrayList<>();
 
 }
