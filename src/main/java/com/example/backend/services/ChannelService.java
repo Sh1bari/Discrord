@@ -5,7 +5,10 @@ import com.example.backend.models.entities.Channel;
 import com.example.backend.models.entities.ChannelGroup;
 import com.example.backend.models.models.requests.CreateChannelDtoReq;
 import com.example.backend.models.models.requests.CreateChannelGroupDtoReq;
+import com.example.backend.models.models.requests.UpdateChannelDtoReq;
+import com.example.backend.models.models.requests.UpdateChannelGroupDtoReq;
 import com.example.backend.repositories.ChannelRepository;
+import com.example.backend.utils.BaseEntityUtil;
 import lombok.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -32,11 +35,25 @@ public class ChannelService {
     public Page<Channel> findAll(Specification<Channel> spec, Pageable pageable) {
         return channelRepo.findAll(spec, pageable);
     }
-
+    @Transactional
+    public Channel delete(Long id) {
+        Channel c = findById(id);
+        BaseEntityUtil.delete(c);
+        return c;
+    }
+    @Transactional
+    public Channel update(Long id, UpdateChannelDtoReq req) {
+        Channel c = findById(id);
+        req.update(c);
+        if(!c.getChannelGroup().getId().equals(req.getChannelGroupId())){
+            c.setChannelGroup(channelGroupService.findById(req.getChannelGroupId()));
+        }
+        return save(c);
+    }
     @Transactional
     public Channel create(CreateChannelDtoReq req) {
         Channel c = req.mapToEntity();
         c.setChannelGroup(channelGroupService.findById(req.getChannelGroupId()));
-        return channelRepo.save(c);
+        return save(c);
     }
 }

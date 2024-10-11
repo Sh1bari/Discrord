@@ -1,9 +1,14 @@
 package com.example.backend.services;
 
 import com.example.backend.exceptions.GeneralException;
+import com.example.backend.models.entities.Channel;
+import com.example.backend.models.entities.ChannelGroup;
 import com.example.backend.models.entities.Community;
 import com.example.backend.models.models.requests.CreateCommunityDtoReq;
+import com.example.backend.models.models.requests.UpdateChannelGroupDtoReq;
+import com.example.backend.models.models.requests.UpdateCommunityDtoReq;
 import com.example.backend.repositories.CommunityRepository;
+import com.example.backend.utils.BaseEntityUtil;
 import lombok.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -30,11 +35,23 @@ public class CommunityService {
     public Page<Community> findAll(Specification<Community> spec, Pageable pageable) {
         return communityRepo.findAll(spec, pageable);
     }
+    @Transactional
+    public Community delete(Long id) {
+        Community c = findById(id);
+        BaseEntityUtil.delete(c);
+        return c;
+    }
 
+    @Transactional
+    public Community update(Long id, UpdateCommunityDtoReq req) {
+        Community c = findById(id);
+        req.update(c);
+        return save(c);
+    }
     @Transactional
     public Community create(CreateCommunityDtoReq req) {
         Community com = req.mapToEntity();
-        return communityRepo.save(com);
+        return save(com);
     }
 
 }

@@ -3,6 +3,7 @@ package com.example.backend.controllers;
 import com.example.backend.models.entities.Community;
 import com.example.backend.models.models.dtos.CommunityDto;
 import com.example.backend.models.models.requests.CreateCommunityDtoReq;
+import com.example.backend.models.models.requests.UpdateCommunityDtoReq;
 import com.example.backend.services.CommunityService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -10,6 +11,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.*;
+import org.hibernate.sql.Update;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -70,6 +72,32 @@ public class CommunityController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(res);
+    }
+
+    @Operation(summary = "Обновить сообщество по id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Success")
+    })
+    @PutMapping("/communities/{id}")
+    public ResponseEntity<CommunityDto> update(@PathVariable Long id,
+                                               @RequestBody UpdateCommunityDtoReq req) {
+        CommunityDto res = CommunityDto.mapFromEntity(
+                communityService.update(id, req));
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(res);
+    }
+
+    @Operation(summary = "Удалить сообщество по id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Success")
+    })
+    @DeleteMapping("/communities/{id}")
+    public ResponseEntity<?> deleteById(@PathVariable Long id) {
+        communityService.delete(id);
+        return ResponseEntity
+                .status(HttpStatus.NO_CONTENT)
+                .build();
     }
 
 }

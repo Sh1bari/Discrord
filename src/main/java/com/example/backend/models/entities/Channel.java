@@ -21,7 +21,7 @@ public class Channel extends BaseEntity{
     @Enumerated(EnumType.STRING)
     private ChannelType channelType;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
+    @ManyToOne
     @JoinColumn(name = "channel_group_id")
     private ChannelGroup channelGroup;
 

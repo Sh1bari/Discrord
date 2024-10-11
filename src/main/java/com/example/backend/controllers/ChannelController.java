@@ -4,9 +4,12 @@ import com.example.backend.models.entities.Channel;
 import com.example.backend.models.entities.ChannelGroup;
 import com.example.backend.models.entities.Community;
 import com.example.backend.models.models.dtos.ChannelDto;
+import com.example.backend.models.models.dtos.ChannelGroupDto;
 import com.example.backend.models.models.dtos.CommunityDto;
 import com.example.backend.models.models.requests.CreateChannelDtoReq;
 import com.example.backend.models.models.requests.CreateCommunityDtoReq;
+import com.example.backend.models.models.requests.UpdateChannelDtoReq;
+import com.example.backend.models.models.requests.UpdateChannelGroupDtoReq;
 import com.example.backend.services.ChannelGroupService;
 import com.example.backend.services.ChannelService;
 import com.example.backend.services.CommunityService;
@@ -74,5 +77,31 @@ public class ChannelController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(res);
+    }
+
+    @Operation(summary = "Обновить канал по id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Success")
+    })
+    @PutMapping("/channels/{id}")
+    public ResponseEntity<ChannelDto> update(@PathVariable Long id,
+                                                  @RequestBody UpdateChannelDtoReq req) {
+        ChannelDto res = ChannelDto.mapFromEntity(
+                channelService.update(id, req));
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(res);
+    }
+
+    @Operation(summary = "Удалить канал по id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Success")
+    })
+    @DeleteMapping("/channels/{id}")
+    public ResponseEntity<?> deleteById(@PathVariable Long id) {
+        channelService.delete(id);
+        return ResponseEntity
+                .status(HttpStatus.NO_CONTENT)
+                .build();
     }
 }
