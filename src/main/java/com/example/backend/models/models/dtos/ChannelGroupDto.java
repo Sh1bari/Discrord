@@ -2,6 +2,7 @@ package com.example.backend.models.models.dtos;
 
 import com.example.backend.models.entities.ChannelGroup;
 import com.example.backend.models.entities.Community;
+import com.example.backend.models.enums.ChannelGroupType;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 @Data
@@ -12,11 +13,13 @@ import lombok.*;
 public class ChannelGroupDto extends BaseEntityDto{
     private Long id;
     private String name;
+    private ChannelGroupType channelGroupType;
     private Long communityId;
 
     private static ChannelGroupDto.ChannelGroupDtoBuilder basicMapping(ChannelGroup c){
         return ChannelGroupDto.builder()
                 .id(c.getId())
+                .channelGroupType(c.getChannelGroupType())
                 .name(c.getName())
                 .communityId(c.getCommunity().getId());
     }
