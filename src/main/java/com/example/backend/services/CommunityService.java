@@ -54,6 +54,7 @@ public class CommunityService {
         Community com = req.mapToEntity();
         ChannelGroup cg = new ChannelGroup();
         cg.setChannelGroupType(ChannelGroupType.SYSTEM);
+        cg.setCommunity(com);
         com.getChannelGroups().add(cg);
         return save(com);
     }
