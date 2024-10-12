@@ -34,8 +34,8 @@ public class CorsConfig implements WebMvcConfigurer {
     @Bean
     public FilterRegistrationBean<CspFilter> cspFilter() {
         FilterRegistrationBean<CspFilter> registrationBean = new FilterRegistrationBean<>();
-        registrationBean.setFilter(new CspFilter());
-        registrationBean.addUrlPatterns("/*");
+        // Отключаем фильтр, который добавлял CSP заголовки
+        registrationBean.setEnabled(false);
         return registrationBean;
     }
 
