@@ -20,7 +20,7 @@ import org.springframework.context.annotation.Configuration;
         servers = {
                 @Server(url = "http://localhost:8080"),
                 @Server(
-                        url = "http://193.168.49.199:8080",
+                        url = "https://sh1bari.ru",
                         description = "Main server"
                 )
         }
