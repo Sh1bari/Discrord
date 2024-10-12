@@ -1,6 +1,8 @@
 package com.example.backend.configs;
 
+import com.example.backend.CspFilter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.filter.ForwardedHeaderFilter;
@@ -27,6 +29,14 @@ public class CorsConfig implements WebMvcConfigurer {
                 .allowedMethods("GET", "POST", "PUT", "DELETE")
                 .allowedHeaders("*")
                 .allowCredentials(true);
+    }
+
+    @Bean
+    public FilterRegistrationBean<CspFilter> cspFilter() {
+        FilterRegistrationBean<CspFilter> registrationBean = new FilterRegistrationBean<>();
+        registrationBean.setFilter(new CspFilter());
+        registrationBean.addUrlPatterns("/*");
+        return registrationBean;
     }
 
     @Bean
