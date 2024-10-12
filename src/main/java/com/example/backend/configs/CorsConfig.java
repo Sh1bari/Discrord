@@ -39,8 +39,8 @@ public class CorsConfig implements WebMvcConfigurer {
         return registrationBean;
     }
 
-    @Bean
+    /*@Bean
     ForwardedHeaderFilter forwardedHeaderFilter() {
         return new ForwardedHeaderFilter();
-    }
+    }*/
 }
