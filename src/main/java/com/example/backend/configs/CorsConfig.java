@@ -30,17 +30,4 @@ public class CorsConfig implements WebMvcConfigurer {
                 .allowedHeaders("*")
                 .allowCredentials(true);
     }
-
-    @Bean
-    public FilterRegistrationBean<CspFilter> cspFilter() {
-        FilterRegistrationBean<CspFilter> registrationBean = new FilterRegistrationBean<>();
-        // Отключаем фильтр, который добавлял CSP заголовки
-        registrationBean.setEnabled(false);
-        return registrationBean;
-    }
-
-    /*@Bean
-    ForwardedHeaderFilter forwardedHeaderFilter() {
-        return new ForwardedHeaderFilter();
-    }*/
 }
