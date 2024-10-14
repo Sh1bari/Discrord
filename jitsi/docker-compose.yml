@@ -1,7 +1,7 @@
 services:
   # Prosody server (XMPP)
   prosody:
-    image: jitsi/prosody
+    image: tiredofit/jitsi-prosody
     container_name: prosody
     restart: always
     environment:
@@ -16,7 +16,7 @@ services:
 
   # Jicofo server (Focus component)
   jicofo:
-    image: jitsi/jicofo
+    image: tiredofit/jitsi-jicofo
     container_name: jicofo
     restart: always
     depends_on:
@@ -35,7 +35,7 @@ services:
 
   # Jitsi Videobridge (Video component)
   jitsi-videobridge:
-    image: jitsi/jitsi-videobridge
+    image: tiredofit/jitsi-videobridge
     container_name: jitsi-videobridge
     restart: always
     environment:
